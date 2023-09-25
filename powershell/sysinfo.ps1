@@ -16,4 +16,4 @@ $BODY = "This machine's IP is $IP. User is $User. Hostname is $UserHost. PowerSh
 
 Write-Host($BODY)
 
-Send-MailMessage -To "dejarnke@mail.uc.edu" -From "ktbtut@gqmail.com" -Subject "IT3038C Windows SysInfo" -Body $BODY -SmtpServer smtp.gmail.com -port 587 -UseSSL -Credential (Get-Credential)
+Send-MailMessage -To "dejarnke@mail.uc.edu" -From "ktbtut@gmail.com" -Subject "IT3038C Windows SysInfo" -Body $BODY -SmtpServer smtp.gmail.com -port 587 -UseSSL -Credential (Get-Credential)
