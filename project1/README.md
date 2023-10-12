@@ -18,7 +18,7 @@ Outlook: https://support.microsoft.com/en-us/account-billing/add-a-trusted-devic
 ## How to use:
 Download the script and ensure Python (https://www.python.org/downloads/release/python-3120/ or > v3.0) is installed and correctly set up with the Python PATH variable created on your machine. The default libraries that come with Python should be more than sufficient to run the script. 
 
-During the initial launch you will be prompted to enter a location with an example. Ensure that the location has a capital letter (E.g., Cincinnati) and press enter after each input prompt.
+During the initial launch you will be prompted to enter a location with an example. The script will automatically turn the first letter capital and everything after into lowercase, this is to enable a functional query parameter with the WeatherAPI being used.
 
 Once you have entered a location, a prompt will ask you to select [yes] or [no] to email results (the case does not matter, it will be lowercase no matter what). 
 
