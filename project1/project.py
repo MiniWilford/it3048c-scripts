@@ -34,7 +34,7 @@ def email(subject, body, sender, to, password, user_smtp_server):
         print("\nMessage Failed, check account settings or smtp server availability...")
         print("Error: {error}".format(error = error))
 
-# Get Weather From Cincinnati
+# Get Weather API base URL
 base_url = "http://api.weatherapi.com/v1"
 
 # Persist Program
