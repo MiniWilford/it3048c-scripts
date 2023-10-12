@@ -14,6 +14,7 @@ from email.message import EmailMessage as email_message
 # https://stackoverflow.com/questions/64505/sending-mail-from-python-using-smtp
 # https://stackoverflow.com/questions/1483429/how-do-i-print-an-exception-in-python
 # https://stackoverflow.com/questions/37224073/smtp-auth-extension-not-supported-by-server
+# https://www.geeksforgeeks.org/how-to-capitalize-first-character-of-string-in-python/
 
 
 def email(subject, body, sender, to, password, user_smtp_server):
@@ -41,7 +42,11 @@ running = True
 while (running):
     # Ask user for location
     print("") # Empty string for better legibility on continues
-    user_location = str(input("Where would you like to check the weather at? \nPlease ensure there is a capital at the beginning (E.g. Cincinnati): "))
+    user_location = str(input("What city would you like to check the weather at? (E.g. Cincinnati): "))
+    
+    # Convert user string into API readable input (first capital letter)
+    user_location = user_location[0].upper() + user_location[1:].lower()
+    
     weather_url = "/current.json?key=eec84d47224a4fefb6402059231110&q=" + user_location + "&aqi=no"
     
     # Call The Weather API
