@@ -65,10 +65,48 @@ def email(subject, body, sender, to, password, user_smtp_server):
         print("Error: {error}".format(error = error))
 
 def email_window():
+    # Setup email window
     email_window = tkgui.Tk()
-    email_window.geometry('665x400+25+25')
+    email_window.geometry('190x400+25+25')
     email_window.title("Email Results")
     email_window['background'] = 'gray'
+    
+    # Get Sender email (e.g., coolemail@yahoo.com)
+    sender = tkgui.StringVar()
+    sender_label = tkgui.Label(email_window, text="Email Username", background="gray", font=('ariel', 12, 'bold'))
+    sender_textbox = tkgui.Entry(email_window, textvariable=sender)
+    
+    # Get Sender password
+    password = tkgui.StringVar()
+    password_label = tkgui.Label(email_window, text="Email Password", background="gray", font=('ariel', 12, 'bold'))
+    password_textbox = tkgui.Entry(email_window, textvariable=password, show="X")
+    
+    # Get subject
+    subject = tkgui.StringVar()
+    subject_label = tkgui.Label(email_window, text="Email Subject", background="gray", font=('ariel', 12, 'bold'))
+    subject_textbox = tkgui.Entry(email_window, textvariable=subject)
+    
+    # Get "to"
+    to = tkgui.StringVar()
+    to_label = tkgui.Label(email_window, text="Email To", background="gray", font=('ariel', 12, 'bold'))
+    to_textbox = tkgui.Entry(email_window, textvariable=to)
+    
+    # Get SMTP server
+    
+    # Email Button
+    send_email_button = tkgui.Button(email_window, text="SEND", relief="raised", padx=15, background="lightgreen")
+    
+    # Place labels/buttons/texbox
+    sender_label.grid(row=0, column=1)
+    sender_textbox.grid(row=1, column=1)
+    password_label.grid(row=2, column=1)
+    password_textbox.grid(row=3, column=1)
+    subject_label.grid(row=4, column=1)
+    subject_textbox.grid(row=5, column=1)
+    to_label.grid(row=6, column=1)
+    to_textbox.grid(row=7, column=1)
+    send_email_button.grid(row=8, column=1)
+    
     
 
 def submit_city():
