@@ -117,6 +117,7 @@ def email_window():
     send_email_button = tkgui.Button(email_window, text="SEND", relief="raised", padx=15, background="lightgreen", command=send_email)
     
     # Display If email sent
+    display_confirmation_label = tkgui.Label(email_window, text="Confirmation", background="gray", font=('ariel', 12, 'bold'))
     display_confirmation = tkgui.Entry(email_window, width=30)
     
     # Place labels/buttons/texbox
@@ -132,7 +133,8 @@ def email_window():
     yahoo.grid(row=9, column=1)
     outlook.grid(row=10, column=1)
     send_email_button.grid(row=11, column=1)
-    display_confirmation.grid(row=12, column=1)
+    display_confirmation_label.grid(row=12, column=1)
+    display_confirmation.grid(row=13, column=1)
 
 def submit_city():
     """
