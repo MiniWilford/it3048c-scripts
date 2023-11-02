@@ -47,6 +47,30 @@ def hide_widget(widget):
 def show_widget(widget):
     widget.pack()
 
+def email(subject, body, sender, to, password, user_smtp_server):
+    try:
+        message = email_message()
+        message.set_content = body
+        message['Subject'] = subject
+        message['From'] = sender
+        message['To'] = to
+        ssl_context = ssl.create_default_context()  # answered Nov 22, 2019 at 16:02 by Asaga
+        with smtplib.SMTP(user_smtp_server, 587) as smtp_server:
+            smtp_server.starttls(context= ssl_context)
+            smtp_server.login(user= sender, password= password)
+            smtp_server.send_message(message)
+        print("Message sent!")
+    except Exception as error:
+        print("\nMessage Failed, check account settings or smtp server availability...")
+        print("Error: {error}".format(error = error))
+
+def email_window():
+    email_window = tkgui.Tk()
+    email_window.geometry('665x400+25+25')
+    email_window.title("Email Results")
+    email_window['background'] = 'gray'
+    
+
 def submit_city():
     """
        Get User information entered in get_city entry textbox
@@ -106,11 +130,15 @@ submit_button = tkgui.Button(main_window, text='Submit', relief='raised', comman
 # hidden data, unveils when submit is clicked
 data = tkgui.Entry(main_window, width=80)
 
+# Add button to open email window to email results
+email_button = tkgui.Button(main_window, text="Email Results", relief="raised", background="lightgreen", command=email_window)
+
 # Place label/entry/button
 question_label.grid(row=0, column=0)
 question_textbox.grid(row=0, column=1)
 submit_button.grid(row=1, column=1)
 data.grid(row=2, column=0)
+email_button.grid(row=3, column=0)
 
 # Ensure main window shown is persistent during runtime
 main_window.mainloop()
