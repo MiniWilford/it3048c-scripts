@@ -36,7 +36,7 @@ from email.message import EmailMessage as email_message
 base_url = "http://api.weatherapi.com/v1"
 
 def display_information(location, time, temp_f, temp_c):
-    print()
+    data.insert(0, f"At {location} it is {time}. Fahrenheit: {temp_f}, Celcius: {temp_c} ")
 
 def hide_widget(widget):
     widget.widget.pack_forget()
@@ -72,9 +72,7 @@ def submit_city():
         temp_c = json_response["current"]["temp_c"]
         
         # Display label in window
-        data = tkgui.Label(main_window, 
-                           text=display_information(location, time, temp_f, temp_c))
-        data.grid(row=1, column=1)
+        display_information(location, time, temp_f, temp_c)
 
 # Create tkinter window class instance (main)
 main_window = tkgui.Tk()
@@ -97,19 +95,19 @@ question_label.pack()
 
 # Place textbox for user entry
 get_city = tkgui.StringVar() # ensure it is in string format
-question_textbox = tkgui.Entry(main_window, textvariable=get_city, font=('ariel', 10, 'normal'))
+question_textbox = tkgui.Entry(main_window, textvariable=get_city, font=('ariel', 10, 'normal'), width=20)
 
 # Create 'submit' button
-submit_button = tkgui.Button(main_window, text='Submit', relief='raised', command=submit_city) 
+submit_button = tkgui.Button(main_window, text='Submit', relief='raised', command=submit_city) # command=submit_city() 
 
 # hidden data, unveils when submit is clicked
-data = tkgui.Label(main_window, text="")
+data = tkgui.Entry(main_window, width=80)
 
 # Place label/entry/button
 question_label.grid(row=0, column=0)
 question_textbox.grid(row=0, column=1)
 submit_button.grid(row=1, column=1)
-data.grid(row=0, column=0)
+data.grid(row=2, column=0)
 
 # Ensure main window shown is persistent during runtime
 main_window.mainloop()
