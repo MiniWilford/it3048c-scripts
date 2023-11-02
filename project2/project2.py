@@ -73,6 +73,7 @@ def submit_city():
         # Display label in window
         data = tkgui.Label(main_window, 
                            text=display_information(location, time, temp_f, temp_c))
+        data.grid(row=1, column=1)
 
 # Create tkinter window class instance (main)
 main_window = tkgui.Tk()
@@ -100,10 +101,14 @@ question_textbox = tkgui.Entry(main_window, textvariable=get_city, font=('ariel'
 # Create 'submit' button
 submit_button = tkgui.Button(main_window, text='Submit', relief='raised', command=submit_city) 
 
+# hidden data, unveils when submit is clicked
+data = tkgui.Label(main_window, text="")
+
 # Place label/entry/button
 question_label.grid(row=0, column=0)
 question_textbox.grid(row=0, column=1)
 submit_button.grid(row=1, column=1)
+data.grid(row=0, column=0)
 
 # Ensure main window shown is persistent during runtime
 main_window.mainloop()
