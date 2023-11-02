@@ -34,7 +34,7 @@ from email.message import EmailMessage as email_message
 # Get Weather API base URL
 base_url = "http://api.weatherapi.com/v1"
 
-def display_information():
+def display_information(location, time, temp_f, temp_c):
     print()
 
 def hide_widget(widget):
@@ -69,6 +69,10 @@ def submit_city():
         time = json_response["location"]["localtime"]
         temp_f = json_response["current"]["temp_f"]
         temp_c = json_response["current"]["temp_c"]
+        
+        # Display label in window
+        data = tkgui.Label(main_window, 
+                           text=display_information(location, time, temp_f, temp_c))
 
 # Create tkinter window class instance (main)
 main_window = tkgui.Tk()
