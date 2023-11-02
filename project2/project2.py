@@ -37,7 +37,7 @@ from email.message import EmailMessage as email_message
 # Get Weather API base URL
 base_url = "http://api.weatherapi.com/v1"
 
-def display_information(location, time, temp_f, temp_c):
+def display_city_information(location, time, temp_f, temp_c):
     data.delete(0, 'end')
     data.insert(0, f"At {location} it is {time}. Fahrenheit: {temp_f}, Celcius: {temp_c} ")
 
@@ -92,6 +92,11 @@ def email_window():
     to_textbox = tkgui.Entry(email_window, textvariable=to)
     
     # Get SMTP server
+    # 3 options (Ex: 'smtp.mail.yahoo.com' or 'smtp.gmail.com')
+    smtp_server = tkgui.StringVar()
+    google = tkgui.Radiobutton(email_window, text='GMAIL', value='smtp.gmail.com', background="gray", variable=smtp_server)
+    yahoo = tkgui.Radiobutton(email_window, text='YAHOO', value='smtp.mail.yahoo.com', background="gray", variable=smtp_server)
+    outlook = tkgui.Radiobutton(email_window, text='OUTLOOK', value='smtp.office365.com', background="gray", variable=smtp_server)
     
     # Email Button
     send_email_button = tkgui.Button(email_window, text="SEND", relief="raised", padx=15, background="lightgreen")
@@ -105,7 +110,10 @@ def email_window():
     subject_textbox.grid(row=5, column=1)
     to_label.grid(row=6, column=1)
     to_textbox.grid(row=7, column=1)
-    send_email_button.grid(row=8, column=1)
+    google.grid(row=8, column=1)
+    yahoo.grid(row=9, column=1)
+    outlook.grid(row=10, column=1)
+    send_email_button.grid(row=11, column=1)
     
     
 
@@ -137,7 +145,7 @@ def submit_city():
         temp_c = json_response["current"]["temp_c"]
         
         # Display label in window
-        display_information(location, time, temp_f, temp_c)
+        display_city_information(location, time, temp_f, temp_c)
 
 # Create tkinter window class instance (main)
 main_window = tkgui.Tk()
