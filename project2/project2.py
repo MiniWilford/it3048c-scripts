@@ -36,7 +36,7 @@ from email.message import EmailMessage as email_message
 base_url = "http://api.weatherapi.com/v1"
 
 def display_information(location, time, temp_f, temp_c):
-    data.insert(0, "")
+    data.delete(0, 'end')
     data.insert(0, f"At {location} it is {time}. Fahrenheit: {temp_f}, Celcius: {temp_c} ")
 
 def hide_widget(widget):
