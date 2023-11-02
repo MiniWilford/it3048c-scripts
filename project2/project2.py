@@ -29,6 +29,46 @@ from email.message import EmailMessage as email_message
 # https://www.bing.com/videos/riverview/relatedvideo?q=tkinter+seet+background+color+of+window&mid=F0B05B9715FD9CA3489BF0B05B9715FD9CA3489B&FORM=VIRE ## Learn to change background color
 # https://www.youtube.com/watch?v=ls3BAhPV06M ## Button and options in Tkinter
 # https://www.geeksforgeeks.org/python-tkinter-entry-widget/  ## Help with structure
+# https://stackoverflow.com/questions/3819354/in-tkinter-is-there-any-way-to-make-a-widget-invisible ## Hiding widget
+
+# Get Weather API base URL
+base_url = "http://api.weatherapi.com/v1"
+
+def display_information():
+    print()
+
+def hide_widget(widget):
+    widget.widget.pack_forget()
+
+def show_widget(widget):
+    widget.pack()
+
+def submit_city():
+    """
+       Get User information entered in get_city entry textbox
+    """
+    # Retrieve entry input
+    city = get_city.get()
+    
+    # Convert user string into API readable input (first capital letter)
+    user_location = city[0].upper() + city[1:].lower()
+    
+    # WebAPI URI 
+    weather_url = "/current.json?key=eec84d47224a4fefb6402059231110&q=" + user_location + "&aqi=no"
+    
+    # Call The Weather API
+    weather_response = requests.get(base_url + weather_url) 
+    
+    # If Succeeds
+    if(weather_response.status_code == 200):
+        # Json Content
+        json_response = json.loads(weather_response.text)
+        
+        # Variable Initialization
+        location = json_response["location"]["name"] + ", " + json_response["location"]["region"]
+        time = json_response["location"]["localtime"]
+        temp_f = json_response["current"]["temp_f"]
+        temp_c = json_response["current"]["temp_c"]
 
 # Create tkinter window class instance (main)
 main_window = tkgui.Tk()
@@ -50,12 +90,11 @@ question_label = tkgui.Label(main_window, text="What city would you like to chec
 question_label.pack()
 
 # Place textbox for user entry
-# Also ensure it is in string format
-get_city = tkgui.StringVar()
+get_city = tkgui.StringVar() # ensure it is in string format
 question_textbox = tkgui.Entry(main_window, textvariable=get_city, font=('ariel', 10, 'normal'))
 
-# Place 'submit' button
-submit_button = tkgui.Button(main_window, text='Submit', relief='raised') 
+# Create 'submit' button
+submit_button = tkgui.Button(main_window, text='Submit', relief='raised', command=submit_city) 
 
 # Place label/entry/button
 question_label.grid(row=0, column=0)
@@ -64,6 +103,8 @@ submit_button.grid(row=1, column=1)
 
 # Ensure main window shown is persistent during runtime
 main_window.mainloop()
+
+
 
 
 '''
