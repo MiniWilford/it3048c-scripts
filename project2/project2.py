@@ -38,17 +38,11 @@ from email.message import EmailMessage as email_message
 base_url = "http://api.weatherapi.com/v1"
 
 def display_city_information(location, time, temp_f, temp_c):
-    data.delete(0, 'end')
+    data.delete(0, 'end') # Remove previous text
     data.insert(0, f"At {location} it is {time}. Fahrenheit: {temp_f}, Celcius: {temp_c} ")
 
-def hide_widget(widget):
-    widget.widget.pack_forget()
-
-def show_widget(widget):
-    widget.pack()
-
 def email(subject, body, sender, to, password, user_smtp_server):
-    try:
+    try:   
         message = email_message()
         message.set_content = body
         message['Subject'] = subject
@@ -56,15 +50,35 @@ def email(subject, body, sender, to, password, user_smtp_server):
         message['To'] = to
         ssl_context = ssl.create_default_context()  # answered Nov 22, 2019 at 16:02 by Asaga
         with smtplib.SMTP(user_smtp_server, 587) as smtp_server:
+            smtp_server.connect(user_smtp_server, 587)
             smtp_server.starttls(context= ssl_context)
             smtp_server.login(user= sender, password= password)
             smtp_server.send_message(message)
-        print("Message sent!")
+        return "Message sent!"
     except Exception as error:
         print("\nMessage Failed, check account settings or smtp server availability...")
         print("Error: {error}".format(error = error))
+        return str(error)
 
 def email_window():
+    
+    def send_email():
+        # Get variables
+        subject = email_subject.get()
+        to = email_to.get()
+        sender = email_sender.get()
+        password = email_password.get()
+        body = data.get()
+        user_smtp_server = smtp_server.get()
+        
+        # Send email
+        confirmation = email(subject, body, sender, to, password, user_smtp_server)
+        display_email_confirmation(confirmation)
+        
+    def display_email_confirmation(message):
+        display_confirmation.delete(0, 'end') # Remove previous text
+        display_confirmation.insert(0, f"{message}")
+    
     # Setup email window
     email_window = tkgui.Tk()
     email_window.geometry('190x400+25+25')
@@ -72,24 +86,24 @@ def email_window():
     email_window['background'] = 'gray'
     
     # Get Sender email (e.g., coolemail@yahoo.com)
-    sender = tkgui.StringVar()
+    email_sender = tkgui.StringVar()
     sender_label = tkgui.Label(email_window, text="Email Username", background="gray", font=('ariel', 12, 'bold'))
-    sender_textbox = tkgui.Entry(email_window, textvariable=sender)
+    sender_textbox = tkgui.Entry(email_window, textvariable=email_sender)
     
     # Get Sender password
-    password = tkgui.StringVar()
+    email_password = tkgui.StringVar()
     password_label = tkgui.Label(email_window, text="Email Password", background="gray", font=('ariel', 12, 'bold'))
-    password_textbox = tkgui.Entry(email_window, textvariable=password, show="X")
+    password_textbox = tkgui.Entry(email_window, textvariable=email_password, show="X")
     
     # Get subject
-    subject = tkgui.StringVar()
+    email_subject = tkgui.StringVar()
     subject_label = tkgui.Label(email_window, text="Email Subject", background="gray", font=('ariel', 12, 'bold'))
-    subject_textbox = tkgui.Entry(email_window, textvariable=subject)
+    subject_textbox = tkgui.Entry(email_window, textvariable=email_subject)
     
     # Get "to"
-    to = tkgui.StringVar()
+    email_to = tkgui.StringVar()
     to_label = tkgui.Label(email_window, text="Email To", background="gray", font=('ariel', 12, 'bold'))
-    to_textbox = tkgui.Entry(email_window, textvariable=to)
+    to_textbox = tkgui.Entry(email_window, textvariable=email_to)
     
     # Get SMTP server
     # 3 options (Ex: 'smtp.mail.yahoo.com' or 'smtp.gmail.com')
@@ -98,8 +112,12 @@ def email_window():
     yahoo = tkgui.Radiobutton(email_window, text='YAHOO', value='smtp.mail.yahoo.com', background="gray", variable=smtp_server)
     outlook = tkgui.Radiobutton(email_window, text='OUTLOOK', value='smtp.office365.com', background="gray", variable=smtp_server)
     
+    
     # Email Button
-    send_email_button = tkgui.Button(email_window, text="SEND", relief="raised", padx=15, background="lightgreen")
+    send_email_button = tkgui.Button(email_window, text="SEND", relief="raised", padx=15, background="lightgreen", command=send_email)
+    
+    # Display If email sent
+    display_confirmation = tkgui.Entry(email_window, width=30)
     
     # Place labels/buttons/texbox
     sender_label.grid(row=0, column=1)
@@ -114,8 +132,7 @@ def email_window():
     yahoo.grid(row=9, column=1)
     outlook.grid(row=10, column=1)
     send_email_button.grid(row=11, column=1)
-    
-    
+    display_confirmation.grid(row=12, column=1)
 
 def submit_city():
     """
@@ -193,53 +210,6 @@ main_window.mainloop()
 
 
 '''
-def email(subject, body, sender, to, password, user_smtp_server):
-    try:
-        message = email_message()
-        message.set_content = body
-        message['Subject'] = subject
-        message['From'] = sender
-        message['To'] = to
-        ssl_context = ssl.create_default_context()  # answered Nov 22, 2019 at 16:02 by Asaga
-        with smtplib.SMTP(user_smtp_server, 587) as smtp_server:
-            smtp_server.starttls(context= ssl_context)
-            smtp_server.login(user= sender, password= password)
-            smtp_server.send_message(message)
-        print("Message sent!")
-    except Exception as error:
-        print("\nMessage Failed, check account settings or smtp server availability...")
-        print("Error: {error}".format(error = error))
-
-# Get Weather API base URL
-base_url = "http://api.weatherapi.com/v1"
-
-# Persist Program
-running = True
-while (running):
-    # Ask user for location
-    print("") # Empty string for better legibility on continues
-    user_location = str(input("What city would you like to check the weather at? (E.g. Cincinnati): "))
-    
-    # Convert user string into API readable input (first capital letter)
-    user_location = user_location[0].upper() + user_location[1:].lower()
-    
-    weather_url = "/current.json?key=eec84d47224a4fefb6402059231110&q=" + user_location + "&aqi=no"
-    
-    # Call The Weather API
-    weather_response = requests.get(base_url + weather_url) 
-    
-    # If Succeeds
-    if(weather_response.status_code == 200):
-        # Json Content
-        json_response = json.loads(weather_response.text)
-        
-        
-        # Variable Initialization
-        location = json_response["location"]["name"] + ", " + json_response["location"]["region"]
-        time = json_response["location"]["localtime"]
-        temp_f = json_response["current"]["temp_f"]
-        temp_c = json_response["current"]["temp_c"]
-        
         # Results
         weather_info = print(
             """\n{location}: {time}. \nIt is [{temp_f}] degrees Fahrenheit or [{temp_c}] degress celsius.
@@ -262,25 +232,5 @@ while (running):
             user_smtp_server = str((input("Please Enter an SMTP email server and ensure third-party access is enabled (Ex: 'smtp.mail.yahoo.com' or 'smtp.gmail.com'): ")))
             # Send Email
             email(subject, body, sender, to, password, user_smtp_server)        
-        
-        # Continue Program...?
-        response = str(input("\nWould you like to continue? [yes] or [no] "))
-        response = str(response.lower())
-        if(response == "yes" or response == "y"):
-            print("\nContinuing")
-            continue
-        else:
-            running = False
-            print("\nGoodbye!")
-            break
-    else:
-        # Failed Response
-        print("Failure to connect to weather service API")
-        response = str(input("\nWould you like to continue [yes] or [no]? "))
-        response = str(response.lower())
-        if(response == "yes" or response == "y"):
-            continue
-        else:
-            running = False
-            break
+ 
 '''
