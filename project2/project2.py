@@ -30,6 +30,7 @@ from email.message import EmailMessage as email_message
 # https://www.youtube.com/watch?v=ls3BAhPV06M ## Button and options in Tkinter
 # https://www.geeksforgeeks.org/python-tkinter-entry-widget/  ## Help with structure
 # https://stackoverflow.com/questions/3819354/in-tkinter-is-there-any-way-to-make-a-widget-invisible ## Hiding widget
+# https://stackoverflow.com/questions/67251284/how-to-display-function-output-to-tkinter-gui
 
 # Get Weather API base URL
 base_url = "http://api.weatherapi.com/v1"
