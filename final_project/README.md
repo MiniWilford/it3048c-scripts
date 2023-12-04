@@ -1,4 +1,4 @@
-# it3048c Final Project - "`Check temperatur, time, and Storage GUI`"
+# it3048c Final Project - "`Check temperature, time, and Storage GUI`"
 
 
 ## The Goal
