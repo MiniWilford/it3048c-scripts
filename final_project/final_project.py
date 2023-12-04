@@ -1,11 +1,16 @@
 # Project 1 dependencies (Email / API calls)
+from tkinter import filedialog as fd
 import requests
 import json
 import smtplib
 import ssl
 
-# Project 2 dependencies (GUI)
+# Project 2/3 dependencies (GUI / Operations)
 import tkinter as tkgui
+
+# Project 3 Dependencies
+import os
+
 
 # Import the email modules
 from email.message import EmailMessage as email_message
@@ -33,6 +38,11 @@ from email.message import EmailMessage as email_message
 # https://stackoverflow.com/questions/67251284/how-to-display-function-output-to-tkinter-gui
 # https://www.tutorialspoint.com/how-to-clear-the-entry-widget-after-a-button-is-pressed-in-tkinter
 
+# References Project 3:
+# https://stackoverflow.com/questions/11295917/how-to-select-a-directory-and-store-the-location-using-tkinter-in-python
+# https://pythonspot.com/tk-file-dialogs/
+# https://stackoverflow.com/questions/58855112/finding-the-biggest-folder-within-a-directory-tree
+# https://stackoverflow.com/questions/1392413/calculating-a-directorys-size-using-python
 
 # Get Weather API base URL
 base_url = "http://api.weatherapi.com/v1"
@@ -40,6 +50,84 @@ base_url = "http://api.weatherapi.com/v1"
 def display_city_information(location, time, temp_f, temp_c):
     data.delete(0, 'end') # Remove previous text
     data.insert(0, f"At {location} it is {time}. Fahrenheit: {temp_f}, Celcius: {temp_c} ")
+
+def storage_window():
+    #
+    # Retrieve highest consuming folders from PC storage (SSD/HDD)
+    #
+    
+    def get_folder_size(path):
+        #
+        # Get Size of directory selected / specified
+        #
+        size_of_folder = 0
+        for (root, dirs, files) in os.walk(path): # Get each item in OS specificed path
+            for file in files: # Join file to initial path and getsize of folder with each file and its size
+                filename = os.path.join(root, file)
+                size_of_folder += os.path.getsize(filename)
+        return size_of_folder
+    
+    # Setup storage window
+    storage_window = tkgui.Tk()
+    storage_window.geometry('400x400+25+25')
+    storage_window.title("Storage Results")
+    storage_window['background'] = 'beige'
+    storage_window.focus() # Supposed to "focus" the window, but askdirectory below overwrites (I guess)
+    
+    # Get Directory to search through from User's PC
+    # Will display "select folder" dialog and search for user selected directory
+    # https://stackoverflow.com/questions/11295917/how-to-select-a-directory-and-store-the-location-using-tkinter-in-python
+    rootPC = tkgui.Tk()
+    rootPC.withdraw()
+    selected_folder = fd.askdirectory()
+    
+    # Parse user's selected directory
+    # https://stackoverflow.com/questions/58855112/finding-the-biggest-folder-within-a-directory-tree
+    # https://stackoverflow.com/questions/1392413/calculating-a-directorys-size-using-python
+    # https://stackoverflow.com/questions/6748791/top-5-folders-consuming-the-most-space?rq=33
+    directory_size_bytes = get_folder_size(selected_folder)
+    directory_size_mbytes = directory_size_bytes / 1000000
+    directory_size_Gbytes = directory_size_bytes / 1000000000
+    
+    
+    # Display this information
+    print(directory_size_bytes)
+    print(directory_size_mbytes)
+    print(directory_size_Gbytes)
+    
+    # GUI label / printing
+    # Bytes
+    display_bytes_label = tkgui.Label(storage_window, text="Byte(s): ", background="red", font=('ariel', 12, 'bold'))
+    display_bytes = tkgui.Entry(storage_window, width=30)
+    display_bytes.delete(0, 'end') # Remove previous text
+    display_bytes.insert(0, f"{directory_size_bytes}")
+    
+    # Megabytes
+    display_mbytes_label = tkgui.Label(storage_window, text="Megabyte(s): ", background="red", font=('ariel', 12, 'bold'))
+    display_mbytes = tkgui.Entry(storage_window, width=30)
+    display_mbytes.delete(0, 'end') # Remove previous text
+    display_mbytes.insert(0, f"{directory_size_mbytes}")
+    
+    # Gigabytes
+    display_Gbytes_label = tkgui.Label(storage_window, text="Gigabyte(s): ", background="red", font=('ariel', 12, 'bold'))
+    display_Gbytes = tkgui.Entry(storage_window, width=30)
+    display_Gbytes.delete(0, 'end') # Remove previous text
+    display_Gbytes.insert(0, f"{directory_size_Gbytes}")
+    
+    # Place labels/buttons/texbox
+    display_bytes_label.grid(row=0, column=0)
+    display_bytes.grid(row=0, column=1)
+    
+    display_mbytes_label.grid(row=1, column=0)
+    display_mbytes.grid(row=1, column=1)
+    
+    display_Gbytes_label.grid(row=1, column=0)
+    display_Gbytes.grid(row=1, column=1)
+    
+
+    
+    
+
 
 def email(subject, body, sender, to, password, user_smtp_server):
     try:   
@@ -198,41 +286,16 @@ data = tkgui.Entry(main_window, width=80)
 # Add button to open email window to email results
 email_button = tkgui.Button(main_window, text="Email Results", relief="raised", background="lightgreen", command=email_window)
 
+# Add button to check PC data consumption
+storage_button = tkgui.Button(main_window, text="Check PC Storage", relief="raised", background="lightgray", command=storage_window)
+
 # Place label/entry/button
 question_label.grid(row=0, column=0)
 question_textbox.grid(row=0, column=1)
 submit_button.grid(row=1, column=1)
 data.grid(row=2, column=0)
 email_button.grid(row=3, column=0)
+storage_button.grid(row=4, column=0)
 
 # Ensure main window shown is persistent during runtime
 main_window.mainloop()
-
-
-
-
-'''
-        # Results
-        weather_info = print(
-            """\n{location}: {time}. \nIt is [{temp_f}] degrees Fahrenheit or [{temp_c}] degress celsius.
-            
-            """.format(location = location, 
-                       time = time, 
-                       temp_f = temp_f,
-                       temp_c = temp_c))
-        
-        # Ask if to email results
-        user_response = str(input("\nWould you like to email the results? [yes] or [no]: ")).lower()
-        if(user_response == "y" or user_response == "yes"):
-            # Set up Email Proponents
-            subject = input("Enter an email subject: ")
-            user_message = input("Enter a message to send with weather information: ")
-            body = "{weather_info} \n\n\n {user_message}".format(weather_info = weather_info, user_message = user_message)
-            sender = input("Enter your email: ")
-            to = input("Email to send to: ")
-            password = str(input("Email Password: "))
-            user_smtp_server = str((input("Please Enter an SMTP email server and ensure third-party access is enabled (Ex: 'smtp.mail.yahoo.com' or 'smtp.gmail.com'): ")))
-            # Send Email
-            email(subject, body, sender, to, password, user_smtp_server)        
- 
-'''

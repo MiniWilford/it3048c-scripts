@@ -16,7 +16,7 @@ Yahoo: https://help.yahoo.com/kb/SLN15241.html
 Outlook: https://support.microsoft.com/en-us/account-billing/add-a-trusted-device-to-your-microsoft-account-fe3860c8-bc04-9770-e218-b4fd6b767f4b#TXT
 
 ## How to use:
-Download the script and ensure Python (https://www.python.org/downloads/release/python-3120/ or > v3.0) is installed and correctly set up with the Python PATH variable created on your machine. The default libraries that come with Python should be more than sufficient to run the script. If not you will need to install PIP and install tkinter and requests library for main functionality.
+Download the script and ensure Python (https://www.python.org/downloads/release/python-3120/ or > v3.0) is installed and correctly set up with the Python PATH variable created on your machine. The default libraries that come with Python should be more than sufficient to run the script. If not you will need to install PIP and install `tkinter` and `requests` libraries for main functionality.
 
 During the initial launch you will be prompted to enter a location with an example. The script will automatically turn the first letter capital and everything after into lowercase, this is to enable a functional query parameter with the WeatherAPI being used.
 
@@ -26,6 +26,10 @@ If the message is failed due to any closed connection, or wrong typed smtp serve
 
 ## Where is the data coming from?
 An API is being utilized to retrieve weather data from https://WeatherAPI.com and is limited to 1 million requests monthly.
+
+## Why is this useful?
+This is useful to utilize when needing to catch up with any older relatives or close friends by sending a personal email, as well as educational usage to learn the differences in temperature when it comes to geography. In addition to the prior reasonings as well, it enables 
+
 
 ## My Email won't send...?
 This is because you don't have third party access enabled by your SMTP provider or there is a firewall issue. Ensure everything is working correctly before trying again. As well as potentially being blocked for sending too many requests.
