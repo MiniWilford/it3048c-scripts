@@ -121,8 +121,10 @@ def storage_window():
     display_mbytes_label.grid(row=1, column=0)
     display_mbytes.grid(row=1, column=1)
     
-    display_Gbytes_label.grid(row=1, column=0)
-    display_Gbytes.grid(row=1, column=1)
+    display_Gbytes_label.grid(row=2, column=0)
+    display_Gbytes.grid(row=2, column=1)
+    
+    # Ask To print to device
     
 
     

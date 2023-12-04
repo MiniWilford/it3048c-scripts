@@ -25,10 +25,10 @@ Once you have entered a location, the API will retrieve the closest matching loc
 If the message is failed due to any closed connection, or wrong typed smtp server name, then the error will be printed in the console / GUI displaying the root issue to what went wrong. 
 
 ## Where is the data coming from?
-An API is being utilized to retrieve weather data from https://WeatherAPI.com and is limited to 1 million requests monthly.
+An API is being utilized to retrieve weather data from https://WeatherAPI.com and is limited to 1 million requests monthly. As well as open libraries utilized such as `os`, `requests`, and `tkinter`.
 
 ## Why is this useful?
-This is useful to utilize when needing to catch up with any older relatives or close friends by sending a personal email, as well as educational usage to learn the differences in temperature when it comes to geography. In addition to the prior reasonings as well, it enables 
+This is useful to utilize when needing to catch up with any older relatives or close friends by sending a personal email, as well as educational usage to learn the differences in temperature when it comes to geography. In addition to the prior reasonings as well, it enables user's to become accustomed to their PC and check on their current storage issues or lack there-of. 
 
 
 ## My Email won't send...?
