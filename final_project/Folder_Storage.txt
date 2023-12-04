@@ -1,0 +1,4 @@
+The folder path: C:/Program Files/Microsoft
+The Bytes were: 338189
+The Megabytes were: 0.338189
+The Gigabytes were: 0.000338189

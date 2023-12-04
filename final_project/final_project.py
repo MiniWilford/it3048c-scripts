@@ -43,6 +43,7 @@ from email.message import EmailMessage as email_message
 # https://pythonspot.com/tk-file-dialogs/
 # https://stackoverflow.com/questions/58855112/finding-the-biggest-folder-within-a-directory-tree
 # https://stackoverflow.com/questions/1392413/calculating-a-directorys-size-using-python
+# https://stackoverflow.com/questions/10354807/creating-a-file-inside-a-directory-in-my-working-directory
 
 # Get Weather API base URL
 base_url = "http://api.weatherapi.com/v1"
@@ -55,6 +56,17 @@ def storage_window():
     #
     # Retrieve highest consuming folders from PC storage (SSD/HDD)
     #
+    
+    def download_data(folder_path, b, mb, gb):
+        #
+        # Grab (b)ytes, (m)ega(b)ytes, (g)iga(b)ytes and download to folder, \n to newline file
+        #
+        new_file = open(os.path.join("final_project/", 'Folder_Storage.txt'), 'w')
+        new_file.write('The folder path: ' + str(folder_path) + "\n") 
+        new_file.write("The Bytes were: " + str(b) + "\n") 
+        new_file.write("The Megabytes were: " + str(mb) + "\n")
+        new_file.write("The Gigabytes were: " + str(gb) + "\n") 
+        new_file.close()
     
     def get_folder_size(path):
         #
@@ -97,19 +109,19 @@ def storage_window():
     
     # GUI label / printing
     # Bytes
-    display_bytes_label = tkgui.Label(storage_window, text="Byte(s): ", background="red", font=('ariel', 12, 'bold'))
+    display_bytes_label = tkgui.Label(storage_window, text="Byte(s): ", background="beige", font=('ariel', 12, 'bold'))
     display_bytes = tkgui.Entry(storage_window, width=30)
     display_bytes.delete(0, 'end') # Remove previous text
     display_bytes.insert(0, f"{directory_size_bytes}")
     
     # Megabytes
-    display_mbytes_label = tkgui.Label(storage_window, text="Megabyte(s): ", background="red", font=('ariel', 12, 'bold'))
+    display_mbytes_label = tkgui.Label(storage_window, text="Megabyte(s): ", background="beige", font=('ariel', 12, 'bold'))
     display_mbytes = tkgui.Entry(storage_window, width=30)
     display_mbytes.delete(0, 'end') # Remove previous text
     display_mbytes.insert(0, f"{directory_size_mbytes}")
     
     # Gigabytes
-    display_Gbytes_label = tkgui.Label(storage_window, text="Gigabyte(s): ", background="red", font=('ariel', 12, 'bold'))
+    display_Gbytes_label = tkgui.Label(storage_window, text="Gigabyte(s): ", background="beige", font=('ariel', 12, 'bold'))
     display_Gbytes = tkgui.Entry(storage_window, width=30)
     display_Gbytes.delete(0, 'end') # Remove previous text
     display_Gbytes.insert(0, f"{directory_size_Gbytes}")
@@ -125,7 +137,8 @@ def storage_window():
     display_Gbytes.grid(row=2, column=1)
     
     # Ask To print to device
-    
+    print_button = tkgui.Button(storage_window, text="Download?", relief="raised", padx=15, background="lightgreen", command=download_data(selected_folder, directory_size_bytes, directory_size_mbytes, directory_size_Gbytes))
+    print_button.grid(row = 4, column=1)
 
     
     
